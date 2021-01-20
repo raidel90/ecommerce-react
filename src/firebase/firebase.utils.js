@@ -1,23 +1,63 @@
   import firebase from 'firebase/app';
   import 'firebase/firestore';
   import 'firebase/auth';
-  
+
+  //My Project 65265
+
   const config = {
-    apiKey: 'AIzaSyCLzuvL4lOmSMKm0NirxENyEJT1qRlxj-M',
-        authDomain: 'react-shop-db-7fb04.firebaseapp.com',
-        projectId: 'react-shop-db-7fb04',
-        storageBucket: 'react-shop-db-7fb04.appspot.com',
-        messagingSenderId: '883343838368',
-        appId: '1:883343838368:web:d4b1c087af98d642cecdc5',
-        measurementId: 'G-S9PD5QZ4LV'
+          apiKey: "AIzaSyAAGZzbXEC30WbpIJbDWe33AYodxgfYbFA",
+          authDomain: "prime-force-302216.firebaseapp.com",
+          projectId: "prime-force-302216",
+          storageBucket: "prime-force-302216.appspot.com",
+          messagingSenderId: "989887129351",
+          appId: "1:989887129351:web:f6d91785e1e82258df47a2",
+          measurementId: "G-RBZ0MEDEW1"
     };
 
+    export const createUserProfileDocument = async( userAuth, additionalData ) => {
+     
+       if(!userAuth) return;
+     
+    
+       console.log(userAuth.uid);
+
+       const userRef=firestore.doc(`users/${userAuth.uid}`);
+
+       const snapShot = await userRef.get();
+
+        if(!snapShot.exists){
+
+          const {displayName, email}=userAuth;
+      
+          const createdAt =new Date();
+
+          try{
+
+            await userRef.set({
+              displayName,
+              email,
+              createdAt,
+              ...additionalData
+            });
+
+          }catch(error){
+            console.log('error creando usuario', error.message)
+          }
+
+        }
+         
+        return userRef;
+    }
+
     firebase.initializeApp(config);
+    
     
     export const auth = firebase.auth();
     export const firestore =firebase.firestore();
 
     const provider = new firebase.auth.GoogleAuthProvider(); 
+
+
     provider.setCustomParameters({prompt:'select_account'});
     export const signInwithGoogle = () => auth.signInWithPopup(provider);
 

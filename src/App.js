@@ -6,7 +6,7 @@ import { Switch, Route} from 'react-router-dom';
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-sign-up/sign-in-sign-up.component';
 
-import { auth} from './firebase/firebase.utils';
+import { auth , createUserProfileDocument} from './firebase/firebase.utils';
 
 class App extends React.Component {
  
@@ -22,8 +22,22 @@ class App extends React.Component {
 
   componentDidMount(){
     
-    this.unSuscribeFromAuth =  auth.onAuthStateChanged(user => {
-        this.setState({currentUser:user});
+    this.unSuscribeFromAuth =  auth.onAuthStateChanged(async userAuth => {
+      if(userAuth){
+          const userRef = await createUserProfileDocument(userAuth);
+         
+          userRef.onSnapshot(snapShot => {
+            
+            //setState es asincrona, 
+            //por lo que habria que pasar una 2da funcion si se quieren los datos completos,
+            // este es un ejemplo con console.log
+            this.setState({currentUser: { id: snapShot.id,...snapShot.data() } }, () =>  { console.log(this.state); });
+
+          });
+         
+      }else
+        this.setState({currentUser: userAuth});
+
      });
 
   }
