@@ -2,7 +2,7 @@ import React from 'react';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import './App.css';
-import { Switch, Route} from 'react-router-dom';
+import { Switch, Route, Redirect} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
@@ -57,16 +57,21 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage}/>
           <Route exact path='/shop' component={ShopPage}/>
-          <Route exact path='/signin' component={SignInAndSignUpPage}/>
+          <Route exact path='/signin' render={()=> this.props.currentUser ? (<Redirect to='/' />):(<SignInAndSignUpPage />)}/>
         </Switch>
 
       </div>
     );
   }
 }
+//redireccionar para evitar entrar al sign mientras esta logueado
+const mapStateToProps = ({user}) => ({
+  currentUser: user.currentUser
+});
 
+ //conectar el user-reducer
 const mapDispatchToProps = dispatch => ({
     setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
