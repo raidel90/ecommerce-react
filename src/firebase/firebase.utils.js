@@ -19,7 +19,6 @@
        if(!userAuth) return;
      
     
-       console.log(userAuth.uid);
 
        const userRef=firestore.doc(`users/${userAuth.uid}`);
 
