@@ -3,9 +3,11 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import './App.css';
 import { Switch, Route, Redirect} from 'react-router-dom';
+import {createStructuredSelector} from 'reselect'
 
 import {connect} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
+import {selectCurrentUser} from './redux/user/user.selector';
 
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-sign-up/sign-in-sign-up.component';
@@ -65,8 +67,8 @@ class App extends React.Component {
   }
 }
 //redireccionar para evitar entrar al sign mientras esta logueado
-const mapStateToProps = ({user}) => ({
-  currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 });
 
  //conectar el user-reducer
