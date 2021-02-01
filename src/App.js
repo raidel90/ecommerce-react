@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
 import {selectCurrentUser} from './redux/user/user.selector';
 
+
 import checkoutPage from './pages/checkout/checkout.component';
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-sign-up/sign-in-sign-up.component';
@@ -38,7 +39,6 @@ class App extends React.Component {
          
       }else
            setCurrentUser( userAuth);
-
      });
 
   }
@@ -70,7 +70,7 @@ class App extends React.Component {
 }
 //redireccionar para evitar entrar al sign mientras esta logueado
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
 });
 
  //conectar el user-reducer
