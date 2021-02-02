@@ -31,11 +31,27 @@ class ShopPage extends React.Component  {
 
         const collectionRef = firestore.collection('collections');
 
-        collectionRef.onSnapshot( async snapshot => {
+        /**FETCH PATTERN 
+        fetch('https://firestore.googleapis.com/v1/projects/prime-force-302216/databases/(default)/documents/collections/')
+            .then(response => response.json())
+            .then(collections => console.log(collections));
+        */
+
+        /** PROMISE PATTERN => just resive data when mount or remount our shop (API call)*/
+        collectionRef.get().then( snapshot => {
             const  collectionsMap = convertCollectionsSnapshotToMap(snapshot);
             updateCollections(collectionsMap);
             this.setState({loading:false});
-        })
+        });
+        
+
+        /*  OBSERVER PATTERN (onSnapshot method is the observer) that is listening
+            this.unSuscribreFromSnapshot = collectionRef.onSnapshot( async snapshot => {
+            const  collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+            updateCollections(collectionsMap);
+            this.setState({loading:false});
+        });
+*/
     };
 
 render(){
