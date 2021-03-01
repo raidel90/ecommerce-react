@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
-import "./App.css";
+
 import { Switch, Route, Redirect } from "react-router-dom";
 import { createStructuredSelector } from "reselect";
 
@@ -13,6 +13,8 @@ import checkoutPage from "./pages/checkout/checkout.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-sign-up/sign-in-sign-up.component";
 
+import {  GlobalStyle } from "./global.styles";
+
 const App = ({ checkUserSession, currentUser }) => {
   
   useEffect(() => {
@@ -21,6 +23,7 @@ const App = ({ checkUserSession, currentUser }) => {
 
   return (
     <div>
+    <GlobalStyle/>
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
@@ -34,6 +37,7 @@ const App = ({ checkUserSession, currentUser }) => {
         />
         <Route exact path="/checkout" component={checkoutPage} />
       </Switch>
+      
     </div>
   );
 };
